@@ -16,7 +16,7 @@ public class GenericWriteRepository<T> : IGenericWriteRepository<T> where T : cl
 
 
     protected DbSet<T> Table => _context.Set<T>();
-    private async Task SaveAsync() => await _context.SaveChangesAsync();
+    protected async Task SaveAsync() => await _context.SaveChangesAsync();
 
     public async Task AddAsync(T entity)
     {
