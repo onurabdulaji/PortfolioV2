@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PortfolioV2.DataTransfer\PortfolioV2.DataTransfer.csproj" />
-    <ProjectReference Include="..\PortfolioV2.Domain\PortfolioV2.Domain.csproj" />
-  </ItemGroup>
-
 </Project>
