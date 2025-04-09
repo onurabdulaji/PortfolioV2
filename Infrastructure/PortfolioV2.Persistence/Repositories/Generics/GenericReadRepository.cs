@@ -17,7 +17,7 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : clas
     }
 
     protected DbSet<T> Table { get => _context.Set<T>(); }
-    protected IQueryable<T> GetQuery(bool enableTracking = true)
+    protected IQueryable<T> GetQuery(bool enableTracking = false)
     {
         return enableTracking ? _context.Set<T>() : _context.Set<T>().AsNoTracking();
     }

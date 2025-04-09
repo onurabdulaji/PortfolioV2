@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using PortfolioV2.Domain.IRepositories.IAbstracts.IHeroRepository;
 using PortfolioV2.Domain.IRepositories.IGenerics;
 using PortfolioV2.Domain.IRepositories.IUnitOfWorks;
 using PortfolioV2.Persistence.Context.Data;
+using PortfolioV2.Persistence.Repositories.Concretes.HeroRepositories;
 using PortfolioV2.Persistence.Repositories.Generics;
 
 namespace PortfolioV2.Persistence.Repositories.UnitOfWorks;
@@ -18,6 +21,38 @@ public class UnitOfWork : IUnitOfWork
         _logger = logger;
     }
 
+    public IHeroReadRepository GetHeroReadRepository
+    {
+        get
+        {
+            if (!_repositories.ContainsKey(typeof(IHeroReadRepository)))
+            {
+                _logger.LogInformation("Creating new HeroReadRepository.");
+            }
+            else
+            {
+                _logger.LogInformation("Returning cached HeroReadRepository.");
+            }
+            return GetOrCreateRepository<IHeroReadRepository, HeroReadRepository>();
+        }
+    }
+
+    public IHeroWriteRepository GetHeroWriteRepository
+    {
+        get
+        {
+            if (!_repositories.ContainsKey(typeof(IHeroWriteRepository)))
+            {
+                _logger.LogInformation("Creating new HeroWriteRepository.");
+            }
+            else
+            {
+                _logger.LogInformation("Returning cached HeroWriteRepository.");
+            }
+            return GetOrCreateRepository<IHeroWriteRepository, HeroWriteRepository>();
+        }
+    }
+
     public void Dispose()
     {
         _context.Dispose();
@@ -32,6 +67,7 @@ public class UnitOfWork : IUnitOfWork
     {
         try
         {
+            _logger.LogDebug("Attempting to save changes...");
             return _context.SaveChanges();
         }
         catch (Exception ex)
@@ -45,6 +81,7 @@ public class UnitOfWork : IUnitOfWork
     {
         try
         {
+            _logger.LogDebug("Attempting to save changes asynchronously...");
             return await _context.SaveChangesAsync();
         }
         catch (Exception ex)
@@ -56,11 +93,13 @@ public class UnitOfWork : IUnitOfWork
 
     IGenericReadRepository<T> IUnitOfWork.GetGenericReadRepository<T>()
     {
+        _logger.LogInformation("GetGenericReadRepository<T> method called for type {Type}", typeof(T).Name);
         return GetOrCreateRepository<IGenericReadRepository<T>, GenericReadRepository<T>>();
     }
 
     IGenericWriteRepository<T> IUnitOfWork.GetGenericWriteRepository<T>()
     {
+        _logger.LogInformation("GetGenericWriteRepository<T> method called for type {Type}", typeof(T).Name);
         return GetOrCreateRepository<IGenericWriteRepository<T>, GenericWriteRepository<T>>();
     }
 
@@ -68,9 +107,15 @@ public class UnitOfWork : IUnitOfWork
     {
         if (!_repositories.TryGetValue(typeof(TInterface), out var repo))
         {
+            _logger.LogInformation("Creating new repository of type {Type}", typeof(TRepo).Name);
             repo = Activator.CreateInstance(typeof(TRepo), _context);
             _repositories[typeof(TInterface)] = repo;
         }
+        else
+        {
+            _logger.LogInformation("Returning cached repository of type {Type}", typeof(TRepo).Name);
+        }
         return (TRepo)repo;
     }
+
 }
