@@ -1,3 +1,4 @@
+using PortfolioV2.Application.Extensions;
 using PortfolioV2.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDatabaseExtension(builder.Configuration);
 builder.Services.AddGenericPatternExtension();
 builder.Services.AddUnitOfWorkExtension();
+#endregion
+
+#region Application Layer
+builder.Services.AddMapsterExtension();
 #endregion
 
 builder.Services.AddControllers();
