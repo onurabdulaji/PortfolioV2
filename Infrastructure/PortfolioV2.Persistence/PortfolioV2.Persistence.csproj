@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\PortfolioV2.Application\PortfolioV2.Application.csproj" />
     <ProjectReference Include="..\..\Core\PortfolioV2.Domain\PortfolioV2.Domain.csproj" />
   </ItemGroup>
 
