@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region Persistence Layer
 builder.Services.AddDatabaseExtension(builder.Configuration);
 builder.Services.AddGenericPatternExtension();
+builder.Services.AddUnitOfWorkExtension();
 #endregion
 
 builder.Services.AddControllers();
