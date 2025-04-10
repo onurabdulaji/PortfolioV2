@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PortfolioV2.Domain.Entities;
 using PortfolioV2.Domain.IRepositories.IAbstracts.IHeroRepository;
 using PortfolioV2.Persistence.Context.Data;
@@ -10,7 +11,7 @@ namespace PortfolioV2.Persistence.Repositories.Concretes.HeroRepositories;
 
 public class HeroReadRepository : GenericReadRepository<Hero>, IHeroReadRepository
 {
-    public HeroReadRepository(AppDbContext context) : base(context)
+    public HeroReadRepository(AppDbContext context, ILogger<GenericReadRepository<Hero>> logger) : base(context, logger)
     {
     }
 
