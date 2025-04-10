@@ -12,8 +12,7 @@ public class CreateHeroDto : BaseDtoConfiguration<CreateHeroDto, Hero>
 
 public class CreateHeroResponseDto : BaseDtoConfiguration<CreateHeroResponseDto, Hero>
 {
-    public string? Title { get; set; }
-    public string? SubTitle { get; set; }
-    public string? BackgroundImageUrl { get; set; }
+    public bool Success { get; set; }
+    public string? Message { get; set; }
 }
 

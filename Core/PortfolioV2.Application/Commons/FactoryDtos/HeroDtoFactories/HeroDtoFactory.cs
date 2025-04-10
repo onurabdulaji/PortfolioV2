@@ -21,7 +21,16 @@ public class HeroDtoFactory : IHeroDtoFactory
             _logger.LogError("Hero is null");
             throw new ArgumentNullException(nameof(hero));
         }
-        return hero.Adapt<CreateHeroDto>();
+        
+        var nHero = new CreateHeroDto
+        {
+            Title = hero.Title,
+            SubTitle = hero.SubTitle,
+            BackgroundImageUrl = hero.BackgroundImageUrl
+        };
+
+        return nHero;
+
     }
 
     public Hero CreateHero(CreateHeroDto heroDto) // Bu islem eklerken 
@@ -52,5 +61,15 @@ public class HeroDtoFactory : IHeroDtoFactory
             throw new ArgumentNullException(nameof(heroes));
         }
         return heroes.Adapt<IList<GetAllHeroDto>>();
+    }
+
+    public CreateHeroResponseDto CreateHeroResponseDto(CreateHeroDto createHeroDto)
+    {
+        if (createHeroDto == null)
+        {
+            _logger.LogError("CreateHeroDto is null");
+            throw new ArgumentNullException(nameof(createHeroDto));
+        }
+        return createHeroDto.Adapt<CreateHeroResponseDto>();
     }
 }

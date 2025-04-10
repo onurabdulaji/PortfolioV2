@@ -9,6 +9,6 @@ public interface IHeroDtoFactory
     Hero CreateHero(CreateHeroDto heroDto);
     GetAllHeroDto CreateGetAllHeroDto(Hero hero);
     IList<GetAllHeroDto> CreateGetAllHeroDtos(IList<Hero> heroes);
+    CreateHeroResponseDto CreateHeroResponseDto(CreateHeroDto createHeroDto);
 
-    
 }
